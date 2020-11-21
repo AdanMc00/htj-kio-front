@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { GoogleLogin, useGoogleLogin } from 'react-google-login'
 import { Context } from '../Context'
 import { Link } from "react-router-dom";
+import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles();
   const { user , setUser} = useContext(Context)
+  const logIn = async  e => {
+    await axios.get()
+  }
+
   // const { signIn, loaded } = useGoogleLogin({
   //   onSuccess  })
   return (
@@ -33,20 +38,19 @@ export default function ButtonAppBar() {
          <Typography variant="h6" className={classes.title}>
             Bienvenido!
           </Typography>
-          <GoogleLogin
-            clientId='262875674340-vgig3ad4jrmlvke8hj4qerrpgsbfv032.apps.googleusercontent.com'
-            buttonText="Login"
-            onSuccess={response=> {setUser(response)
-              console.log(user)
-            }}
+          {/*<GoogleLogin*/}
+          {/*  clientId='262875674340-vgig3ad4jrmlvke8hj4qerrpgsbfv032.apps.googleusercontent.com'*/}
+          {/*  buttonText="Login"*/}
+          {/*  onSuccess={response => { setUser(response)*/}
+          {/*    console.log(user)*/}
+          {/*  }}*/}
 
-            onFailure={response=> console.log(response)}
-            cookiePolicy={'single_host_origin'}
+          {/*  onFailure={ response => console.log(response) }*/}
+          {/*  cookiePolicy={'single_host_origin'}*/}
 
-          />
-          <Link to="/ideas">
-            <Button color="inherit">Iniciar Sesion</Button>
-          </Link>
+          {/*/>*/}
+            <Button href={'http://localhost:8080/auth/google/callback'} color="inherit">Iniciar Sesion</Button>
+
 
         </Toolbar>
       </AppBar>

@@ -9,7 +9,7 @@ function App () {
   return (
     <ContextProvider>
       <BrowserRouter>
-        <div style={{ backgroundColor: ' #f1f1f1 ' }} className="App">
+        <div style={{ background:'linear-gradient(-15deg, #c65a5d 30%, #445edf 90%)' }} className="App">
           <Switch>
             <React.Fragment>
               <Route path="/" component={Landing} exact/>

@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
-import { useSpring, animated } from 'react-spring/web.cjs' // web.cjs is required for IE 11 support
+import { useSpring, animated } from 'react-spring/web.cjs'
 import Button from '@material-ui/core/Button'
 import InputBase from '@material-ui/core/InputBase'
-import IconButton from '@material-ui/core/IconButton'
 import { Add as AddIcon } from '@material-ui/icons'
 import axios from 'axios'
 
@@ -15,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    direction:'column'
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -64,43 +64,58 @@ Fade.propTypes = {
   onExited: PropTypes.func,
 }
 
-const SpringModal = () => {
+const SpringModal = ({ createIdea }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [ideas, setIdeas] = useState({
     title: '',
     author: '',
     description: '',
-    imgUrl: ''
+    imageUrl: ''
 
   })
+  const [error, setError] = useState(false)
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
   const handleChange = e => {
     setIdeas({
       ...ideas,
       [e.target.name]: e.target.value
     })
-    console.log()
+    console.log(e.target.value)
+    console.log(ideas)
   }
-  const { title, author, description, imgUrl } = ideas;
+  const { title, author, description, imageUrl } = ideas
 
-  const submitIdeas = e => {
-  e.preventDefault()
-    console.log(title)
-  }
-  const handleOpen = () => {
-    setOpen(true)
-  }
+  const headers = {
 
-  const handleClose = () => {
+}
+  const submitIdeas = async e => {
+    e.preventDefault()
+    if (title.trim() === '' || author.trim() === '' || description.trim() === '' ||
+      imageUrl.trim() === '') {
+      setError(true)
+      return
+    }
+    setError(false)
+    createIdea(ideas)
+
+    await axios.post("http://localhost:8080/ideas", ideas,{headers}).then((result) => {
+      console.log(result);
+    });
+    setIdeas({
+      title: '',
+      author: '',
+      description: '',
+      imageUrl: ''
+    })
     setOpen(false)
   }
-  const postIdea = async () => {
-    const request = await axios.post(`http://localhost:8080/ideas`)
-    console.log(request)
-    setOpen(false)
-  }
-
-  return (
+    return (
     <div>
       <Button className={classes.style} onClick={handleOpen}>
         react-spring
@@ -118,38 +133,48 @@ const SpringModal = () => {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
-            <h2 id="spring-modal-title">Crear Nueva Idea</h2>
-            <InputBase
-              placeholder="titulo…"
-              inputProps={{ 'aria-label': 'title' }}
-              name={'title'}
-              onChange={handleChange}
-            />
-            <InputBase
-              placeholder="author…"
-              inputProps={{ 'aria-label': 'author' }}
-              name={'author'}
-              onChange={handleChange}
-            />
-            <InputBase
-              placeholder="description"
-              inputProps={{ 'aria-label': 'description' }}
-              name={'description'}
-              onChange={handleChange}
-            />
-            <InputBase
-              placeholder="imageUrl"
-              inputProps={{ 'aria-label': 'imageUrl' }}
-              name={'imageUrl'}
-              onChange={handleChange}
-            />
-            <IconButton onClick={postIdea}><AddIcon/></IconButton>
+          <form
+            onSubmit={submitIdeas}>
+            {error ? <p className='alerta-error'>Todos los campos son olbigatorios</p> : null}
+            <div className={classes.paper}>
+              <h2 id="spring-modal-title">Crear Nueva Idea</h2>
+              <InputBase
+                placeholder="titulo…"
+                inputProps={{ 'aria-label': 'title' }}
+                name={'title'}
+                onChange={handleChange}
+                value={title}
+              />
+              <InputBase
+                placeholder="author…"
+                inputProps={{ 'aria-label': 'author' }}
+                name={'author'}
+                onChange={handleChange}
+                value={author}
+              />
+              <InputBase
+                placeholder="description"
+                inputProps={{ 'aria-label': 'description' }}
+                name={'description'}
+                onChange={handleChange}
+                value={description}
+              />
+              <InputBase
+                placeholder="imageUrl"
+                inputProps={{ 'aria-label': 'imageUrl' }}
+                name={'imageUrl'}
+                onChange={handleChange}
+                value={imageUrl}
+              />
+              <button
+                type={'submit'}><AddIcon/></button>
 
-          </div>
+            </div>
+          </form>
         </Fade>
       </Modal>
     </div>
+
   )
 }
 export default SpringModal

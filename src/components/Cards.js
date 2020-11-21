@@ -35,13 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function RecipeReviewCard () {
+export default function RecipeReviewCard ({ allIdeas }) {
   const classes = useStyles()
   const [expanded, setExpanded] = React.useState(false)
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
+  console.log(allIdeas)
 
   return (
     <Card className={classes.root}>
@@ -56,18 +57,17 @@ export default function RecipeReviewCard () {
             <MoreVertIcon/>
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={allIdeas.title}
+        subheader={allIdeas.dateCreate}
       />
       <CardMedia
         className={classes.media}
-        image="https://picsum.photos/seed/800/200/150"
+        image={allIdeas.imageUrl}
         title="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+          {allIdeas.description}
         </Typography>
       </CardContent>
       <IconButton aria-label="add to favorites">
