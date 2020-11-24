@@ -14,7 +14,6 @@ function App () {
             <React.Fragment>
               <Route path="/" component={Landing} exact/>
               <Route path="/ideas" component={Ideas}/>
-
             </React.Fragment>
           </Switch>
         </div>

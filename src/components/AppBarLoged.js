@@ -10,7 +10,7 @@ import Menu from '@material-ui/core/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
-
+import Button from '@material-ui/core/Button'
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    fontSize: 25
   },
   search: {
     position: 'relative',
@@ -49,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'Black',
+    fontSize: 15
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '100ch',
     },
   },
   sectionDesktop: {
@@ -79,27 +81,21 @@ export default function PrimarySearchAppBar () {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
-
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null)
   }
-
   const handleMenuClose = () => {
     setAnchorEl(null)
     handleMobileMenuClose()
   }
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget)
   }
-
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -111,11 +107,12 @@ export default function PrimarySearchAppBar () {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>logout</MenuItem>
-
+      <MenuItem href={'http://localhost:8080/logout'} onClick={handleMenuClose}>logout</MenuItem>
+      <Button href={'http://localhost:8080/logout'}>
+        logout
+      </Button>
     </Menu>
   )
-
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const renderMobileMenu = (
     <Menu
@@ -127,13 +124,13 @@ export default function PrimarySearchAppBar () {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+
         >
           <AccountCircle/>
         </IconButton>
@@ -141,15 +138,16 @@ export default function PrimarySearchAppBar () {
       </MenuItem>
     </Menu>
   )
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            Bienvenido
           </Typography>
+          <Button href={'https://accounts.google.com/logout'}>
+            logout
+          </Button>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon/>
@@ -165,7 +163,6 @@ export default function PrimarySearchAppBar () {
           </div>
           <div className={classes.grow}/>
           <div className={classes.sectionDesktop}>
-
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -173,6 +170,7 @@ export default function PrimarySearchAppBar () {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+
             >
               <AccountCircle/>
             </IconButton>
@@ -184,9 +182,13 @@ export default function PrimarySearchAppBar () {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+
             >
               <MoreIcon/>
             </IconButton>
+            <Button href={'http://localhost:8080/logout'}>
+              logout
+            </Button>
           </div>
         </Toolbar>
       </AppBar>

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,39 +35,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function RecipeReviewCard ({ allIdeas }) {
+export default function RecipeReviewCard ({ title, author, dateCreate,description, imageUrl }) {
   const classes = useStyles()
-  const [expanded, setExpanded] = React.useState(false)
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
-  console.log(allIdeas)
-
+  console.log(title)
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            A
+
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon/>
-          </IconButton>
-        }
-        title={allIdeas.title}
-        subheader={allIdeas.dateCreate}
+
+        title={title}
+
+        subheader={<Typography variant ='caption' color={'textPrimary'} noWrap> {dateCreate} </Typography>}subheader={<Typography variant ='caption' color={'textSecondary'} noWrap> {dateCreate} </Typography>}
       />
       <CardMedia
         className={classes.media}
-        image={allIdeas.imageUrl}
+        image={imageUrl}
         title="Paella dish"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {allIdeas.description}
+
+          {author}
+
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+
+
+          {description}
         </Typography>
       </CardContent>
       <IconButton aria-label="add to favorites">

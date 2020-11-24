@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    direction:'column'
+    direction: 'row',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
     height: 48,
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    margin: '15px 0'
   }
 }))
-
 const Fade = React.forwardRef(function Fade (props, ref) {
   const { in: open, children, onEnter, onExited, ...other } = props
   const style = useSpring({
@@ -49,31 +49,31 @@ const Fade = React.forwardRef(function Fade (props, ref) {
       }
     },
   })
-
   return (
     <animated.div ref={ref} style={style} {...other}>
       {children}
     </animated.div>
   )
 })
-
 Fade.propTypes = {
   children: PropTypes.element,
   in: PropTypes.bool.isRequired,
   onEnter: PropTypes.func,
   onExited: PropTypes.func,
 }
+const SpringModal = ({user, createIdea, onAddIdea,  }) => {
 
-const SpringModal = ({ createIdea }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [ideas, setIdeas] = useState({
     title: '',
-    author: '',
+    author: user.name,
     description: '',
-    imageUrl: ''
+    imageUrl: '',
+    userId:user.provider_id
 
   })
+  console.log(ideas)
   const [error, setError] = useState(false)
   const handleOpen = () => {
     setOpen(true)
@@ -84,19 +84,20 @@ const SpringModal = ({ createIdea }) => {
   const handleChange = e => {
     setIdeas({
       ...ideas,
+     author: user.name,
+      userId:user.provider_id,
+
       [e.target.name]: e.target.value
     })
-    console.log(e.target.value)
-    console.log(ideas)
   }
   const { title, author, description, imageUrl } = ideas
 
-  const headers = {
+  let valor = document.cookie.split('token=')
+  const [cookie] = useState(valor[1].split(';', 1))
 
-}
   const submitIdeas = async e => {
     e.preventDefault()
-    if (title.trim() === '' || author.trim() === '' || description.trim() === '' ||
+    if (title.trim() === '' || description.trim() === '' ||
       imageUrl.trim() === '') {
       setError(true)
       return
@@ -104,21 +105,22 @@ const SpringModal = ({ createIdea }) => {
     setError(false)
     createIdea(ideas)
 
-    await axios.post("http://localhost:8080/ideas", ideas,{headers}).then((result) => {
-      console.log(result);
-    });
+    await axios.post(`http://localhost:8080/ideas?access_token=${cookie}`, ideas).then((result) => {
+    })
     setIdeas({
       title: '',
       author: '',
       description: '',
-      imageUrl: ''
+      imageUrl: '',
+      userId:''
     })
     setOpen(false)
+    onAddIdea()
   }
-    return (
-    <div>
-      <Button className={classes.style} onClick={handleOpen}>
-        react-spring
+  return (
+    <div style={{ width: '100%' }}>
+      <Button className={classes.style} fullWidth variant="contained" onClick={handleOpen}>
+        Crear Idea
       </Button>
       <Modal
         aria-labelledby="spring-modal-title"
@@ -135,8 +137,8 @@ const SpringModal = ({ createIdea }) => {
         <Fade in={open}>
           <form
             onSubmit={submitIdeas}>
-            {error ? <p className='alerta-error'>Todos los campos son olbigatorios</p> : null}
             <div className={classes.paper}>
+              {error ? <p className='alerta-error'>Todos los campos son olbigatorios</p> : null}
               <h2 id="spring-modal-title">Crear Nueva Idea</h2>
               <InputBase
                 placeholder="titulo…"
@@ -150,7 +152,8 @@ const SpringModal = ({ createIdea }) => {
                 inputProps={{ 'aria-label': 'author' }}
                 name={'author'}
                 onChange={handleChange}
-                value={author}
+                value={user.name}
+                readOnly={true}
               />
               <InputBase
                 placeholder="description"
@@ -168,13 +171,11 @@ const SpringModal = ({ createIdea }) => {
               />
               <button
                 type={'submit'}><AddIcon/></button>
-
             </div>
           </form>
         </Fade>
       </Modal>
     </div>
-
   )
 }
 export default SpringModal

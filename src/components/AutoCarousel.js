@@ -3,7 +3,6 @@ import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
-
 const MyComponent = () => (
   <AutoPlaySwipeableViews style={{ marginTop: 15 }}>
     <div >
@@ -17,5 +16,4 @@ const MyComponent = () => (
     </div>
   </AutoPlaySwipeableViews>
 )
-
 export default MyComponent

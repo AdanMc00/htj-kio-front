@@ -1,6 +1,5 @@
 import React from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import MainAppBar from '../components/MainAppBar'
 import AutoCarousel from '../components/AutoCarousel'
@@ -11,7 +10,7 @@ export default function SimpleContainer () {
   return (
     <React.Fragment>
       <CssBaseline/>
-      <MainAppBar/>
+      <MainAppBar />
       <Container maxWidth="md">
         <AutoCarousel/>
       </Container>
@@ -22,7 +21,6 @@ export default function SimpleContainer () {
         <Medium/>
       </Container>
       <Footer/>
-
     </React.Fragment>
   )
 }
