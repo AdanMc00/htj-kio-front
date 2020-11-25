@@ -43,7 +43,6 @@ export default function SimpleContainer () {
     description: '',
     imageUrl: '',
     userId: user.provider_id
-
   })
   const createIdea = ideas => {
     setIdea({
@@ -88,7 +87,6 @@ export default function SimpleContainer () {
   }
   const [searchs, setSearch] = useState({})
   const { title } = searchs
-  console.log(searchs)
   const searchIdea = async () => {
     await axios.get(`http://localhost:8080/search/${title}`).then(async (response) => {
       console.log(response.data.data.ideas)
