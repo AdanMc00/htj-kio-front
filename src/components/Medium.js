@@ -23,19 +23,19 @@ export default function CenteredGrid () {
           <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
               <img width={'100%'} src='https://picsum.photos/200?random=1' alt='img1'/>
-              <p>jhdsahjdsajhbdjh cdsjhfds</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
               <img width={'100%'} src='https://picsum.photos/200?random=2' alt='img2'/>
-              <p>jhdsahjdsajhbdjh cdsjhfds</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
               <img width={'100%'} src='https://picsum.photos/200?random=3' alt='img3'/>
-              <p>jhdsahjdsajhbdjh cdsjhfds</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
             </Paper>
           </Grid>
         </Grid>
