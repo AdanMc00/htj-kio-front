@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import Button from '@material-ui/core/Button'
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -76,8 +77,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }))
-
-export default function PrimarySearchAppBar () {
+export default function PrimarySearchAppBar ({ searchIdea }) {
+  let valor = document.cookie.split('token=')
+  const [cookie] = useState(valor[1].split(';', 1))
+  const [searchs, setSearch] = useState({
+    'title': ''
+  })
+  const handleOnchange = e => {
+    setSearch({
+      ...searchs,
+      [e.target.name]: e.target.value
+    })
+  }
+  const { title } = searchs
+  console.log(searchs)
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
@@ -108,9 +121,6 @@ export default function PrimarySearchAppBar () {
       onClose={handleMenuClose}
     >
       <MenuItem href={'http://localhost:8080/logout'} onClick={handleMenuClose}>logout</MenuItem>
-      <Button href={'http://localhost:8080/logout'}>
-        logout
-      </Button>
     </Menu>
   )
   const mobileMenuId = 'primary-search-account-menu-mobile'
@@ -130,7 +140,6 @@ export default function PrimarySearchAppBar () {
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
-
         >
           <AccountCircle/>
         </IconButton>
@@ -145,8 +154,8 @@ export default function PrimarySearchAppBar () {
           <Typography className={classes.title} variant="h6" noWrap>
             Bienvenido
           </Typography>
-          <Button href={'https://accounts.google.com/logout'}>
-            logout
+          <Button onClick={searchIdea}>
+            Search
           </Button>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -158,7 +167,10 @@ export default function PrimarySearchAppBar () {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ 'aria-label': 'search' }}
+              name={'title'}
+              onChange={handleOnchange}
+              value={searchs.title}
+              type={'search'}
             />
           </div>
           <div className={classes.grow}/>
@@ -170,7 +182,6 @@ export default function PrimarySearchAppBar () {
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
-
             >
               <AccountCircle/>
             </IconButton>
@@ -182,13 +193,9 @@ export default function PrimarySearchAppBar () {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
-
             >
               <MoreIcon/>
             </IconButton>
-            <Button href={'http://localhost:8080/logout'}>
-              logout
-            </Button>
           </div>
         </Toolbar>
       </AppBar>

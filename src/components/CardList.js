@@ -3,16 +3,13 @@ import Cards from '../components/Cards'
 import Grid from '@material-ui/core/Grid'
 
 export default function CardList ({ allIdeas }) {
-
   return (
     <React.Fragment>
       <Grid container spacing={2}>
-
-          {
-            allIdeas.map((idea,index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
+        {
+          allIdeas.map((idea, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
               <Cards
-
                 title={idea.title}
                 author={idea.author}
                 dateCreate={idea.dateCreate}
@@ -20,10 +17,9 @@ export default function CardList ({ allIdeas }) {
                 imageUrl={idea.imageUrl}
                 userId={idea.userId}
               />
-              </Grid>
-            ))
-          }
-
+            </Grid>
+          ))
+        }
       </Grid>
     </React.Fragment>
   )

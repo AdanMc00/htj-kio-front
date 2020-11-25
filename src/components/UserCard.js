@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    minWidth:320
+    minWidth: 320
   },
   media: {
     height: 0,
@@ -25,13 +25,9 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
 }))
-
-export default function RecipeReviewCard ({user}) {
+export default function RecipeReviewCard ({ user }) {
   const classes = useStyles()
-
-  const {name, photo, email} =  user
-
-
+  const { name, photo, email } = user
   return (
     <Card className={classes.root}>
       <CardMedia

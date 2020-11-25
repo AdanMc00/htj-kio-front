@@ -30,16 +30,13 @@ export default function SimpleContainer () {
   if (!log) throw (Error)
   let valor = document.cookie.split('token=')
   const [cookie] = useState(valor[1].split(';', 1))
-  console.log(cookie)
   let logedUserId = document.cookie.split('idprov=')
   const [idProv] = useState(logedUserId[1])
-  console.log(idProv)
   const [user, setUser] = useState([])
   useEffect(() => {
     axios.get(`http://localhost:8080/${idProv}`)
       .then(response => setUser(response.data.data.user))
   }, [])
-  console.log(user)
   const [idea, setIdea] = useState({
     title: '',
     author: user.name,
@@ -54,26 +51,30 @@ export default function SimpleContainer () {
       ideas,
     })
   }
-
-
-
-  const getMyIdeas = () => {
-    axios.get(`http://localhost:8080/ideas/${idProv}`,{
+  const getMyIdeas = async () => {
+    await axios.get(`http://localhost:8080/ideas/${idProv}`, {
       params: {
-
-        access_token : cookie[0]
+        access_token: cookie[0],
       }
-    }).then(function(response){
-      console.log(response)
+    }).then(async (response) => {
+      console.log(response.data.data.idea)
+      const dataPayload = await response.data.data.idea
+      const myIdeaCard = await dataPayload.map((badIdea) => ({
+        title: badIdea.title,
+        author: badIdea.author,
+        dateCreate: badIdea.dateCreate,
+        description: badIdea.description,
+        imageUrl: badIdea.imageUrl,
+      }))
+      setAllIdeas(
+        myIdeaCard
+      )
     })
   }
-
   const [allIdeas, setAllIdeas] = useState([])
   const getAllIdeas = async () => {
     const response = await axios.get(`http://localhost:8080/ideas?access_token=${cookie}`)
-    const payload = await response.data
-    console.log(response.data)
-    const dataPayload = await payload.data.ideas
+    const dataPayload = await response.data.data.ideas
     const ideaCard = await dataPayload.map((badIdea) => ({
       title: badIdea.title,
       author: badIdea.author,
@@ -84,25 +85,42 @@ export default function SimpleContainer () {
     setAllIdeas(
       ideaCard
     )
-
+  }
+  const [searchs, setSearch] = useState({})
+  const { title } = searchs
+  console.log(searchs)
+  const searchIdea = async () => {
+    await axios.get(`http://localhost:8080/search/${title}`).then(async (response) => {
+      console.log(response.data.data.ideas)
+      const payload = response.data.data.ideas
+      const searchCard = await payload.map((badIdea) => ({
+        title: badIdea.title,
+        author: badIdea.author,
+        dateCreate: badIdea.dateCreate,
+        description: badIdea.description,
+        imageUrl: badIdea.imageUrl,
+      }))
+      setAllIdeas(
+        searchCard
+      )
+      console.log(allIdeas)
+    })
   }
   return (
     <React.Fragment>
-
-      <AppBarLoged/>
+      <AppBarLoged searchIdea={searchIdea}/>
       <Container>
         <Box my='15px' display={'flex'} flexWrap={'wrap'} justifyContent={isSm ? 'space-around' : 'center'}
              alignItems={'center'}>
           <UserCard user={user}/>
           <Box>
-            <Modal user={user} createIdea={createIdea} onAddIdea={getAllIdeas} fullWidth />
+            <Modal user={user} createIdea={createIdea} onAddIdea={getAllIdeas} fullWidth/>
             <Button onClick={getAllIdeas} fullWidth variant="contained" className={classes.style}>Todas
               las Ideas</Button>
             <Button onClick={getMyIdeas} fullWidth variant="contained" className={classes.style}>Mis Ideas</Button>
           </Box>
         </Box>
         <CardList user={user} allIdeas={allIdeas}/>
-        {/*<Example allIdeas={allIdeas}/>*/}
       </Container>
     </React.Fragment>
   )

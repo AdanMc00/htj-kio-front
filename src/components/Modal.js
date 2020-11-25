@@ -61,8 +61,7 @@ Fade.propTypes = {
   onEnter: PropTypes.func,
   onExited: PropTypes.func,
 }
-const SpringModal = ({user, createIdea, onAddIdea,  }) => {
-
+const SpringModal = ({ user, createIdea, onAddIdea }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [ideas, setIdeas] = useState({
@@ -70,10 +69,8 @@ const SpringModal = ({user, createIdea, onAddIdea,  }) => {
     author: user.name,
     description: '',
     imageUrl: '',
-    userId:user.provider_id
-
+    userId: user.provider_id
   })
-  console.log(ideas)
   const [error, setError] = useState(false)
   const handleOpen = () => {
     setOpen(true)
@@ -84,17 +81,15 @@ const SpringModal = ({user, createIdea, onAddIdea,  }) => {
   const handleChange = e => {
     setIdeas({
       ...ideas,
-     author: user.name,
-      userId:user.provider_id,
+      author: user.name,
+      userId: user.provider_id,
 
       [e.target.name]: e.target.value
     })
   }
-  const { title, author, description, imageUrl } = ideas
-
+  const { title, description, imageUrl } = ideas
   let valor = document.cookie.split('token=')
   const [cookie] = useState(valor[1].split(';', 1))
-
   const submitIdeas = async e => {
     e.preventDefault()
     if (title.trim() === '' || description.trim() === '' ||
@@ -104,7 +99,6 @@ const SpringModal = ({user, createIdea, onAddIdea,  }) => {
     }
     setError(false)
     createIdea(ideas)
-
     await axios.post(`http://localhost:8080/ideas?access_token=${cookie}`, ideas).then((result) => {
     })
     setIdeas({
@@ -112,7 +106,7 @@ const SpringModal = ({user, createIdea, onAddIdea,  }) => {
       author: '',
       description: '',
       imageUrl: '',
-      userId:''
+      userId: ''
     })
     setOpen(false)
     onAddIdea()

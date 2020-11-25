@@ -11,7 +11,6 @@ import { red } from '@material-ui/core/colors'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function RecipeReviewCard ({ title, author, dateCreate,description, imageUrl }) {
+export default function RecipeReviewCard ({ title, author, dateCreate, description, imageUrl }) {
   const classes = useStyles()
 
   console.log(title)
@@ -50,7 +49,8 @@ export default function RecipeReviewCard ({ title, author, dateCreate,descriptio
 
         title={title}
 
-        subheader={<Typography variant ='caption' color={'textPrimary'} noWrap> {dateCreate} </Typography>}subheader={<Typography variant ='caption' color={'textSecondary'} noWrap> {dateCreate} </Typography>}
+        subheader={<Typography variant='caption' color={'textPrimary'} noWrap> {dateCreate} </Typography>}
+        subheader={<Typography variant='caption' color={'textSecondary'} noWrap> {dateCreate} </Typography>}
       />
       <CardMedia
         className={classes.media}

@@ -20,21 +20,21 @@ export default function CenteredGrid () {
     <container>
       <div className={classes.root}>
         <Grid container spacing={5}>
-          <Grid item xs={12} xl={4}>
+          <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
-              <img full width src='https://picsum.photos/200?random=1' alt='img1'/>
+              <img width={'100%'} src='https://picsum.photos/200?random=1' alt='img1'/>
               <p>jhdsahjdsajhbdjh cdsjhfds</p>
             </Paper>
           </Grid>
-          <Grid item xs={12} xl={4}>
+          <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
-              <img src='https://picsum.photos/200?random=2' alt='img2'/>
+              <img width={'100%'} src='https://picsum.photos/200?random=2' alt='img2'/>
               <p>jhdsahjdsajhbdjh cdsjhfds</p>
             </Paper>
           </Grid>
-          <Grid item xs={12} xl={4}>
+          <Grid item xs={12} sm={4} md={4} xl={4}>
             <Paper className={classes.paper}>
-              <img src='https://picsum.photos/200?random=3' alt='img3'/>
+              <img width={'100%'} src='https://picsum.photos/200?random=3' alt='img3'/>
               <p>jhdsahjdsajhbdjh cdsjhfds</p>
             </Paper>
           </Grid>
